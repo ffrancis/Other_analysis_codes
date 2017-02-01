@@ -34,7 +34,8 @@ selected_line     = '282set_Tx303'
 
 ### actual data
 # input_file   =   "c1_hmp31_q30.vcf"
-input_file   =   input_path + "hmp321_agpv4_chr1.vcf"
+# input_file   =   input_path + "hmp321_agpv4_chr1.vcf"
+input_file   =  "test_hmp321_agpv4_chr1.vcf"
 
 ### V3 coords
 # locus_start = 25375814
@@ -43,13 +44,13 @@ input_file   =   input_path + "hmp321_agpv4_chr1.vcf"
 
 ### V4 coords qNLB_1_25722269_22589
 
-locus_start = 25722269 
-locus_stop = 25744857
+# locus_start = 25722269 
+# locus_stop = 25744857
 
 ### test data
 # input_file   =   "c10_first1000.vcf"
-# locus_start =  229011
-# locus_stop = 229703
+locus_start =  56032
+locus_stop = 56140
 
 
 ############################################################
@@ -58,32 +59,39 @@ locus_stop = 25744857
 
 ### read first N_lines of vcf file to get the positon of specified lines
 def get_line_column_no(selected_line, N_lines):
-    with open(input_file) as myfile:
+    with open(input_path +input_file) as myfile:
         lines = [next(myfile) for x in xrange(N_lines)]
         for line in lines:
             line = line.strip("\n").split("\t")
             if line[0] == '#CHROM':
+            # if line[0] == 'CHROM':
                 headers = line
                 column_pos = [i for i, x in enumerate(headers) if x == selected_line][0]
-        return column_pos
+        return int(column_pos)
 
-        
 
+def subset_hapmap(input_path, input_file,output_file_name):
+    selected_line_column = get_line_column_no(selected_line, 30)
+    df = pd.read_csv(input_path +input_file, sep='\t', comment='#', skiprows=0, usecols=[1, 3, 4, int(selected_line_column)], header=None)
+    df = df[(df[1] >= int(locus_start)) & (df[1] <= int(locus_stop))]
+    ### split column by delimiter
+    df_column_split = pd.DataFrame(df[selected_line_column].str.split(':',1).tolist(), columns = ['genotype','extra'])
+    ### merged the split df with the original df
+    df = df.join(df_column_split)
+    ### remove redundant columns
+    df = df.drop(selected_line_column, 1)
+    df = df.drop('extra', 1)
+    ### remove columns with no variants called / missing data
+    df = df.loc[df['genotype'] != '0/0']
+    df = df.loc[df['genotype'] != './.']
+    df.columns = ['Coordinate', 'REF_allele','ALT_allele', "Genotype"]
+    df.to_csv(output_file_name + input_file[:-4] + ".txt", sep='\t', encoding='utf-8', index=False)
+    
 ############################################################
 ### CODE
 ############################################################
         
-        
-print get_line_column_no(selected_line, 30)
+if __name__ =='__main__':
+    subset_hapmap(input_path, input_file,"subsetted_")
 
 
-'''
-df = pd.read_csv(input_path + input_file, sep='\t', comment='#', skiprows=0, usecols=[1, 3, 4, 720], header=None)
-# print df
-# df = df[(df.coordinate >= int(start_pos)) & (df.coordinate <= int(stop_pos))]
-df = df[(df[1] >= int(locus_start)) & (df[1] <= int(locus_stop))]
-
-
-df.columns = ['coordinate', 'REF_allele','ALT_allele', "line"]
-df.to_csv('parsed_snpsv4020117' + input_file, sep='\t', encoding='utf-8', index=False)
-'''
