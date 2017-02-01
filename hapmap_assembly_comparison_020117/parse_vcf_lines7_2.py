@@ -9,9 +9,8 @@
 
 ### Import functions
 import datetime
-import os
 import pandas as pd
-import numpy as np
+
 
 ############################################################
 ### Time to run the code: start timer
