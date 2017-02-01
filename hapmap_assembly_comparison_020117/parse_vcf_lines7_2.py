@@ -56,11 +56,10 @@ locus_stop = 25744857
 ### FUNCTIONS
 ############################################################
 
-### read first 100 lines of vcf file to get the positon of specified lines
-
-def get_line_column_no(selected_line):
+### read first N_lines of vcf file to get the positon of specified lines
+def get_line_column_no(selected_line, N_lines):
     with open(input_file) as myfile:
-        lines = [next(myfile) for x in xrange(50)]
+        lines = [next(myfile) for x in xrange(N_lines)]
         for line in lines:
             line = line.strip("\n").split("\t")
             if line[0] == '#CHROM':
@@ -68,7 +67,14 @@ def get_line_column_no(selected_line):
                 column_pos = [i for i, x in enumerate(headers) if x == selected_line][0]
         return column_pos
 
-print get_line_column_no(selected_line)
+        
+
+############################################################
+### CODE
+############################################################
+        
+        
+print get_line_column_no(selected_line, 30)
 
 
 '''
