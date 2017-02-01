@@ -1,10 +1,9 @@
-### vcf_conversion: converts a vcf file to ThermoAlign input format
-### Version 1.0.0: 06/28/2016
+### extracts variants corresponding to a specific line and coordinate range
+### Version 1.0.0: 02/01/2017
 ### Authors: Felix Francis (felixfrancier@gmail.com) 
 
 ### Requirements
 ### vcf files should follow the format described here: https://samtools.github.io/hts-specs/VCFv4.2.pdf
-### all vcf input files must be named according to the corresponding fasta input files, e.g. chr1.vcf, chr2.vcf, ... 
 
 
 
