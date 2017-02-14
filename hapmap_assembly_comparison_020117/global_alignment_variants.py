@@ -131,7 +131,7 @@ if __name__ =='__main__':
 
 		# clustal_omega_alignment("./" + str(query[:-6]) + "_merged.fasta", "clustalo_output")
 		clustal_omega_alignment("./" + str(query[:-6]) + "_merged.fasta", str(query[:-6])+ "_alignment_output")
-
+		
 
 		f0 = open(os.devnull, 'w')
 		with open(str(reference[:-6]) + "_" + str(query[:-6]) + ".vcf","wb") as out:
