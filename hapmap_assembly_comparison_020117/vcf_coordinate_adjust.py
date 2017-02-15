@@ -85,7 +85,7 @@ def adjust_vcf_coordinates(input_path, input_file, output_file, reference):
 						# adj_ALT = '<DEL>'
 						
 					### adjust coordiate by accounting for reference gaps in alignment for previous genotype pos
-					POS = (int(POS) - coord_adj) + reference_start
+					POS = (int(POS) - coord_adj) + reference_start - 1
 					
 					if len(adj_ALT) > len(adj_REF):
 						output.write(str(CHROM)+'\t'+str(POS)+'\t'+str(ID)+'\t'+str(adj_REF)+'\t'+'<INS>'+'\t'+str(QUAL)+'\t'+str(FILTER)+'\t'+str(INFO)+'\t'+str(FORMAT)+'\t'+ '0/0:1' +'\t'+'1/1:1'+ '\n')
