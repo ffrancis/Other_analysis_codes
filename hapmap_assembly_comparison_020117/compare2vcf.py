@@ -1,5 +1,5 @@
-### adjust the coordinate of a vcf file, so that they are cooresponding to the true coordinates of the reference genome, rather than the alignment.
-### Version 1.0.0: 02/13/2017
+### compare hapmap vcf and resequening vcf
+### Version 1.0.0: 02/16/2017
 ### Authors: Felix Francis (felixfrancier@gmail.com) 
 
 ### Requirements
